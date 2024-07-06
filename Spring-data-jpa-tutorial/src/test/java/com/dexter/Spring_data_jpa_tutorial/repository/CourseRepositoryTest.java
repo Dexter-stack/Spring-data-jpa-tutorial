@@ -1,6 +1,7 @@
 package com.dexter.Spring_data_jpa_tutorial.repository;
 
 import com.dexter.Spring_data_jpa_tutorial.Entity.Course;
+import com.dexter.Spring_data_jpa_tutorial.Entity.Student;
 import com.dexter.Spring_data_jpa_tutorial.Entity.Teacher;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,6 +102,27 @@ class CourseRepositoryTest {
         Pageable firstPagerecords =  PageRequest.of(0,10);
         List<Course> courses =  courseRepository.findByTitleContaining("B",firstPagerecords).getContent();
         System.out.println("Course = "+ courses);
+    }
+
+   @Test
+    public void saveCourseWithStudentAndTeacher(){
+        Teacher teacher =  Teacher.builder()
+                .firstName("Lizzy")
+                .lastName("desk")
+                .build();
+        Student student = Student.builder()
+                .firstName("Tobi")
+                .lastName("siji")
+                .emailId("dex@gmail.com")
+                .build();
+        Course course =  Course.builder()
+                .title("Java")
+                .credit(12)
+                .teacher(teacher)
+
+                .build();
+        course.addStudents(student);
+        courseRepository.save(course);
     }
 
 }
